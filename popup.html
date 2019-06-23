@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: #E1E2E1;
+            width: 480px;
+            margin: 0;
+            font-size: 14px;
+            border-radius: 4px;
+            background-size: cover;
+        }
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            background-color: #ff5722;
+            height: 48px;
+        }
+
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 16px;
+            color: ghostwhite;
+        }
+
+        .url-input {
+            margin: 16px;
+        }
+
+        .url-input input {
+            width: 97%;
+            height: 24px;
+            line-height: 1.5rem;
+            outline-color: #ff8a50;
+            outline-width: thin;
+            padding: 0 6px;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            margin: 16px;
+        }
+
+        .actions > * {
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
+            color: #ff5722;
+        }
+
+        .actions #apply {
+            margin-right: 16px;
+        }
+
+        .actions a:hover {
+            color: #c41c00;
+        }
+    </style>
+</head>
+<body>
+<div class="title-container">
+    <div class="title">
+        Background Changer
+    </div>
+</div>
+<div class="url-input">
+    <input type="text" placeholder="image url...">
+</div>
+<div class="actions">
+    <label id="apply">Apply</label>
+    <label id="reset">Reset</label>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
