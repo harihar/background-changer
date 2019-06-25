@@ -6,7 +6,7 @@ const resetBtn = document.getElementById('reset');
 // if it looks like an url use that as an image
 // else use it as a string
 applyBtn.onclick = function () {
-    const imgUrlInput = document.querySelector(".url-input > input");
+    const imgUrlInput = document.querySelector(".url-input input");
     const imgUrl = imgUrlInput.value.trim();
 
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
@@ -30,6 +30,3 @@ resetBtn.onclick = function () {
         });
     });
 };
-
-
-//https://wallpaperplay.com/walls/full/0/9/2/78869.jpg

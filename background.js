@@ -1,34 +1,4 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 'use strict';
-
-// chrome.runtime.onInstalled.addListener(function () {
-//     chrome.storage.sync.set({color: '#3aa757'}, function () {
-//         console.log('The color is green.');
-//     });
-//     chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-//         chrome.declarativeContent.onPageChanged.addRules([{
-//             conditions: [new chrome.declarativeContent.PageStateMatcher({
-//                 pageUrl: {urlMatches: '.*'},
-//             })],
-//             actions: [new chrome.declarativeContent.ShowPageAction()]
-//         }]);
-//     });
-// });
-
-// chrome.tabs.onUpdated.addListener(function (tabId, info) {
-//     if (info.status === 'complete') {
-//         const unmodifiedBackground = JSON.stringify(window.getComputedStyle(document.body, null).getPropertyValue('background'));
-//         chrome.storage.sync.set({'unmodifiedBackground': unmodifiedBackground}, function () {
-//             console.log('saved background ', unmodifiedBackground);
-//         });
-//         chrome.tabs.sendMessage(tabId, {text: 'report_back'}, function () {
-//
-//         });
-//     }
-// });
 
 chrome.webNavigation.onCompleted.addListener(function (data) {
     const url = new URL(data.url);
@@ -45,4 +15,15 @@ chrome.webNavigation.onCompleted.addListener(function (data) {
             });
         }
     });
+});
+
+const contextMenuItem = {
+    "id": "applyBackground",
+    "title": "Apply Background",
+    "contexts": ["all"],
+    "visible": true
+};
+
+chrome.contextMenus.create(contextMenuItem, function () {
+
 });
