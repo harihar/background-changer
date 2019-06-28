@@ -69,7 +69,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status === 'loading') {
         console.log(changeInfo);
         removeTabId(tabId);
-        if ((changeInfo.url || "").startsWith("chrome://")) {
+        if (!changeInfo.url || changeInfo.url.startsWith("chrome://")) {
             return;
         }
         const newUrl = new URL(changeInfo.url);
