@@ -13,7 +13,6 @@ applyBtn.onclick = function () {
         const tab = tabs[0];
         const url = new URL(tab.url);
         chrome.tabs.sendMessage(tab.id, {text: 'set_background', background: imgUrl}, function () {
-
             chrome.storage.sync.set({[url.host]: imgUrl}, function () {
 
             });
