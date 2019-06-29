@@ -1,4 +1,4 @@
-# background-changer
+# Background changer
 A chrome extension to change the background of any webpage
 
 # Get started
