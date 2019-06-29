@@ -1,5 +1,6 @@
 'use strict';
 
+chrome.contextMenus.remove('applyBackground');
 const contextMenuItem = {
     id: "applyBackground",
     title: "Apply Background",
@@ -10,42 +11,20 @@ chrome.contextMenus.create(contextMenuItem);
 
 const tabsWithHost = {};
 
-function appendTabId(host, tabId) {
-    tabsWithHost[host].push(tabId);
-    console.log('added', tabId, 'to', host);
-}
-
-function removeWww(host) {
-    const parts = host.split("www.");
-    return parts.length > 1 ? parts[1] : parts[0];
-}
-
-function addContextMenuItem(host, tabId) {
-    const hostLabel = removeWww(host);
-    tabsWithHost[host] = [tabId];
-    const subContextMenuItem = {
-        id: host,
-        title: hostLabel,
-        visible: true,
-        contexts: ["image"],
-        parentId: "applyBackground"
-    };
-    chrome.contextMenus.create(subContextMenuItem);
-    console.log('added context menu item', hostLabel);
-}
-
-chrome.tabs.getAllInWindow(null, function (tabs) {
-    for (let i = 0; i < tabs.length; i++) {
-        if (tabs[i].url.startsWith("chrome://")) {
-            continue;
-        }
-        const url = new URL(tabs[i].url);
-        if ((tabsWithHost[url.host] || []).length > 0) {
-            appendTabId(url.host, tabs[i].id);
-        } else {
-            addContextMenuItem(url.host, tabs[i].id);
-        }
-    }
+chrome.windows.getAll({populate: true}, function (windows) {
+    windows.forEach(function (window) {
+        window.tabs.forEach(function (tab) {
+            if (tab.url.startsWith("chrome://")) {
+                return;
+            }
+            const url = new URL(tab.url);
+            if ((tabsWithHost[url.host] || []).length > 0) {
+                appendTabId(url.host, tab.id);
+            } else {
+                addContextMenuItem(url.host, tab.id);
+            }
+        });
+    });
 });
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
@@ -88,6 +67,30 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
     removeTabId(tabId);
 });
+
+function appendTabId(host, tabId) {
+    tabsWithHost[host].push(tabId);
+    console.log('added', tabId, 'to', host);
+}
+
+function removeWww(host) {
+    const parts = host.split("www.");
+    return parts.length > 1 ? parts[1] : parts[0];
+}
+
+function addContextMenuItem(host, tabId) {
+    const hostLabel = removeWww(host);
+    tabsWithHost[host] = [tabId];
+    const subContextMenuItem = {
+        id: host,
+        title: hostLabel,
+        visible: true,
+        contexts: ["image"],
+        parentId: "applyBackground"
+    };
+    chrome.contextMenus.create(subContextMenuItem);
+    console.log('added context menu item', hostLabel);
+}
 
 function removeTabId(tabId) {
     const hostNames = Object.keys(tabsWithHost) || [];
